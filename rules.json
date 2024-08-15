@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "action": {
+      "type": "modifyHeaders",
+      "requestHeaders": [
+        {
+          "operation": "set",
+          "header": "user-agent",
+          "value": "Mozilla/5.0 (Linux; Android 10; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.159 Mobile Safari/537.36"
+        }
+      ]
+    },
+    "condition": {
+      "urlFilter": "https://m.facebook.com/sharer/sharer.php?u=",
+      "resourceTypes": [
+        "main_frame"
+      ]
+    }
+  }
+]
