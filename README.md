@@ -1,5 +1,5 @@
-# Chrome Extension Facebook Group P_Vexed Sharer
+# Chrome Extension Telegram Group P_Vexed Sharer
 
-Chrome extension to share on Facebook group P_Vexed:
+Chrome extension to share on Telegram group P_Vexed:
 
-https://www.facebook.com/groups/p.vexed
+https://t.me/P_Vexed

@@ -17,29 +17,12 @@
     check();
   });
 
-  await waitForTime(1000);
-  (await waitForSelector('div[role="main"] div[style*="--card-corner-radius"] div[role="button"][tabindex="0"]')).click();
-  await waitForTime(1000);
-  (await waitForSelector('div[role="dialog"] div[contenteditable="true"]')).focus();
-  await waitForTime(1000);
+  await waitForTime(6000);
+  (await waitForSelector('.chats-container [contenteditable="true"]')).focus();
+  await waitForTime(2000);
   document.execCommand('insertText', false, (new URLSearchParams(location.search)).get('sharer'));
-  await waitForTime(1000);
-  await waitForSelector('div[role="dialog"]:has(div[contenteditable="true"]) div[role="presentation"] + div div[role="button"][tabindex="0"] > i');
-  await waitForTime(1000);
-  document.execCommand('selectAll', false);
-  await waitForTime(1000);
-  document.execCommand('insertText', false, '!');
-  await waitForTime(1000);
-  document.execCommand('selectAll', false);
-  await waitForTime(1000);
-  document.execCommand('delete', false);
-  await waitForTime(1000);
-  document.querySelector('div[role="dialog"] form input[type="submit"]').click();
-  await waitForTime(1000);
-
-  setInterval(() => {
-    if (document.querySelector('div[role="dialog"] div[contenteditable="true"]') === null) {
-      window.close();
-    }
-  }, 100);
+  await waitForTime(2000);
+  (await waitForSelector('.chats-container button.send')).click();
+  await waitForTime(2000);
+  window.close();
 })();
