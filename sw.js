@@ -2,25 +2,51 @@ chrome.action.onClicked.addListener(tab => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: (url) => {
-      const isPTT = url === 'https://term.ptt.cc/';
+      const result = (url => {
+        if (url === 'https://term.ptt.cc/') {
+          const anchor = Array.from(document.querySelectorAll('[href^="https://www.ptt.cc/bbs/"]')).at(-1);
 
-      if (isPTT === true) {
-        const anchor = document.querySelector('[href^="https://www.ptt.cc/bbs/"]');
+          if (anchor === null) {
+            alert('Cannot find the URL.');
+            return false;
+          }
 
-        if (anchor === null) {
-          alert('Cannot find the URL.');
-          return;
+          return [ { url: anchor.href }, false];
         }
 
-        url = anchor.href;
+        if (url.startsWith('https://www.facebook.com/') === true) {
+          const pathname = location.pathname;
+
+          if (pathname === '/permalink.php') {
+            const title = document.title;
+            const text = title.substring(0, title.lastIndexOf(' | '));
+            return [{ url, text }, true];
+          }
+
+          if (pathname.startsWith('/groups/') === true) {
+            const multi = new URLSearchParams(location.search).get('multi_permalinks');
+
+            if (multi !== null) {
+              return [{ url: 'https://www.facebook.com' + pathname + '/posts/' + multi }, true];
+            }
+          }
+        }
+
+        return [{ url }, true];
+      })(url);
+
+      if (result === false) {
+        return;
       }
 
+      const [data, close] = result;
+
       window.open(
-        'https://web.telegram.org/k/?sharer=' + encodeURIComponent(url) + '#@P_Vexed',
+        'https://web.telegram.org/k/?sharer=' + encodeURIComponent(JSON.stringify(data)) + '#@P_Vexed',
         '_blank',
         `width=100,height=100,top=${window.innerHeight - 100},left=${window.innerWidth - 100}`);
 
-      isPTT === false &&
+      close === true &&
         window.close();
     },
     args: [tab.url]
