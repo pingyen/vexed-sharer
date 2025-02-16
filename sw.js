@@ -2,20 +2,26 @@ chrome.action.onClicked.addListener(tab => {
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
     func: (url) => {
-      if (url === 'https://term.ptt.cc/') {
+      const isPTT = url === 'https://term.ptt.cc/';
+
+      if (isPTT === true) {
         const anchor = document.querySelector('[href^="https://www.ptt.cc/bbs/"]');
 
-        anchor === null ?
-          alert('Cannot find the URL.') :
-          window.open(
-            'https://m.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(anchor.href),
-            '_blank',
-            `width=100,height=100,top=${window.innerHeight - 100},left=${window.innerWidth - 100}`);
+        if (anchor === null) {
+          alert('Cannot find the URL.');
+          return;
+        }
 
-        return;
+        url = anchor.href;
       }
 
-      location = 'https://m.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+      window.open(
+        'https://m.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
+        '_blank',
+        `width=100,height=100,top=${window.innerHeight - 100},left=${window.innerWidth - 100}`);
+
+      isPTT === false &&
+        window.close();
     },
     args: [tab.url]
   });
