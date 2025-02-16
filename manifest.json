@@ -1,10 +1,9 @@
 {
   "name": "Facebook Group P_Vexed Sharer",
-  "version": "0.1",
+  "version": "0.2",
   "manifest_version": 3,
   "permissions": [
     "activeTab",
-    "declarativeNetRequest",
     "scripting"
   ],
   "icons": {
@@ -17,18 +16,6 @@
   "background": {
     "service_worker": "sw.js"
   },
-  "host_permissions": [
-    "<all_urls>"
-  ],
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "rules",
-        "enabled": true,
-        "path": "rules.json"
-      }
-    ]
-  },
   "content_scripts": [
     {
       "js": [
@@ -38,7 +25,7 @@
       "world": "MAIN",
       "all_frames": true,
       "matches": [
-        "https://m.facebook.com/sharer/sharer.php?u=*"
+        "https://www.facebook.com/groups/p.vexed?sharer=*"
       ]
     }
   ]

@@ -16,7 +16,7 @@ chrome.action.onClicked.addListener(tab => {
       }
 
       window.open(
-        'https://m.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url),
+        'https://www.facebook.com/groups/p.vexed?sharer=' + encodeURIComponent(url),
         '_blank',
         `width=100,height=100,top=${window.innerHeight - 100},left=${window.innerWidth - 100}`);
 
