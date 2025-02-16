@@ -16,7 +16,7 @@ chrome.action.onClicked.addListener(tab => {
       }
 
       window.open(
-        'https://www.facebook.com/groups/p.vexed?sharer=' + encodeURIComponent(url),
+        'https://web.telegram.org/k/?sharer=' + encodeURIComponent(url) + '#@P_Vexed',
         '_blank',
         `width=100,height=100,top=${window.innerHeight - 100},left=${window.innerWidth - 100}`);
 
