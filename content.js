@@ -31,6 +31,8 @@
   await waitForTime(6000);
   (await waitForSelector('.chats-container [contenteditable="true"]')).focus();
   await waitForTime(2000);
+  document.execCommand('selectAll', false, null);
+  await waitForTime(200);
   document.execCommand('insertText', false, getContent());
   await waitForTime(2000);
   (await waitForSelector('.chats-container button.send')).click();
