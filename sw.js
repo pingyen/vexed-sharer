@@ -19,7 +19,12 @@ chrome.action.onClicked.addListener(tab => {
 
           if (pathname === '/permalink.php') {
             const title = document.title;
-            const text = title.substring(0, title.lastIndexOf(' | '));
+            const result = /^\(\d+?\) /.exec(title);
+
+            let text = result === null ? title : title.substring(result[0].length);
+
+            text = text.substring(0, text.lastIndexOf(' | '));
+
             return [{ url, text }, true];
           }
 
