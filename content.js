@@ -5,16 +5,27 @@
     setTimeout(resolve, ms);
   });
 
-  const waitForSelector = selector => new Promise(resolve => {
-    const check = () => {
+  const waitForSelector = (selector, timeout) => new Promise((resolve, reject) => {
+    let outTimer = null;
+
+    const checkTimer = setInterval(() => {
       const element = document.querySelector(selector);
 
-      element === null ?
-        setTimeout(check, 100) :
-        resolve(element);
-    };
+      if (element === null) {
+        return;
+      }
 
-    check();
+      clearTimeout(outTimer);
+      clearInterval(checkTimer);
+      resolve(element);
+    }, 100);
+
+    if (timeout !== undefined) {
+      outTimer = setTimeout(() => {
+        clearInterval(checkTimer);
+        reject();
+      }, timeout);
+    }
   });
 
   const getContent = () => {
@@ -33,9 +44,24 @@
   await waitForTime(2000);
   document.execCommand('selectAll', false, null);
   await waitForTime(200);
-  document.execCommand('insertText', false, getContent());
-  await waitForTime(2000);
-  (await waitForSelector('.chats-container button.send')).click();
-  await waitForTime(2000);
-  window.close();
+
+  for (let i = 0; i < 3; ++i) {
+    document.execCommand('insertText', false, getContent());
+
+    try {
+      await waitForSelector('.chats-container button.reply-icon', 6000);
+    } catch (e) {
+      document.execCommand('selectAll', false, null);
+      await waitForTime(200);
+      document.execCommand('insertText', false, '');
+      await waitForTime(200);
+      continue;
+    }
+
+    await waitForTime(2000);
+    (await waitForSelector('.chats-container button.send')).click();
+    await waitForTime(2000);
+    window.close();
+    break;
+  }
 })();
