@@ -6,7 +6,7 @@ chrome.action.onClicked.addListener(tab => {
         if (url === 'https://term.ptt.cc/') {
           const anchor = Array.from(document.querySelectorAll('[href^="https://www.ptt.cc/bbs/"]')).at(-1);
 
-          if (anchor === null) {
+          if (anchor === undefined) {
             alert('Cannot find the URL.');
             return false;
           }
