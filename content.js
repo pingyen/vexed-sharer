@@ -40,7 +40,19 @@
   };
 
   await waitForTime(6000);
-  (await waitForSelector('.chats-container [contenteditable="true"]')).focus();
+
+  while (true) {
+    const editor = await waitForSelector('.chats-container [contenteditable="true"]');
+
+    editor.focus();
+
+    if (document.activeElement === editor) {
+      break;
+    }
+
+    await waitForTime(2000);
+  }
+
   await waitForTime(2000);
   document.execCommand('selectAll', false, null);
   await waitForTime(200);
