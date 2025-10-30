@@ -32,7 +32,7 @@ chrome.action.onClicked.addListener(tab => {
             const multi = new URLSearchParams(location.search).get('multi_permalinks');
 
             if (multi !== null) {
-              return [{ url: 'https://www.facebook.com' + pathname + '/posts/' + multi }, true];
+              return [{ url: 'https://www.facebook.com' + pathname + 'posts/' + multi }, true];
             }
           }
         }
