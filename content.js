@@ -28,17 +28,6 @@
     }
   });
 
-  const getContent = () => {
-    const data = JSON.parse(new URLSearchParams(location.search).get('sharer'));
-    const tokens = [data.url];
-
-    if (data.text !== undefined) {
-      tokens.push(data.text);
-    }
-
-    return tokens.join('\n\n');
-  };
-
   await waitForTime(6000);
 
   while (true) {
@@ -57,17 +46,29 @@
   document.execCommand('selectAll', false, null);
   await waitForTime(200);
 
-  for (let i = 0; i < 3; ++i) {
-    document.execCommand('insertText', false, getContent());
+  const data = JSON.parse(new URLSearchParams(location.search).get('sharer'));
+  const url = data.url;
+  const text = data.text;
+  const content = text === undefined ? url : url + '\n\n' + text;
+  const max = 2;
+
+  for (let i = 0; i <= max; ++i) {
+    document.execCommand('insertText', false, content);
 
     try {
       await waitForSelector('.chats-container button.reply-icon', 6000);
     } catch (e) {
-      document.execCommand('selectAll', false, null);
-      await waitForTime(200);
-      document.execCommand('insertText', false, '');
-      await waitForTime(200);
-      continue;
+      if (i === max) {
+        if (text === undefined) {
+          location = url;
+        }
+      } else {
+        document.execCommand('selectAll', false, null);
+        await waitForTime(200);
+        document.execCommand('insertText', false, '');
+        await waitForTime(200);
+        continue;
+      }
     }
 
     await waitForTime(2000);
