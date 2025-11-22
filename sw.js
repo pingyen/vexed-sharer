@@ -17,24 +17,22 @@ chrome.action.onClicked.addListener(tab => {
         if (url.startsWith('https://www.facebook.com/') === true) {
           const pathname = location.pathname;
 
-          if (pathname === '/permalink.php') {
-            const title = document.title;
-            const result = /^\(\d+?\) /.exec(title);
-
-            let text = result === null ? title : title.substring(result[0].length);
-
-            text = text.substring(0, text.lastIndexOf(' | '));
-
-            return [{ url, text }, true];
-          }
-
           if (pathname.startsWith('/groups/') === true) {
             const multi = new URLSearchParams(location.search).get('multi_permalinks');
 
             if (multi !== null) {
-              return [{ url: 'https://www.facebook.com' + pathname + 'posts/' + multi }, true];
+              url = 'https://www.facebook.com' + pathname + 'posts/' + multi;
             }
           }
+
+          const title = document.title;
+          const result = /^\(\d+?\) /.exec(title);
+
+          let text = result === null ? title : title.substring(result[0].length);
+
+          text = text.substring(0, text.lastIndexOf(' | '));
+
+          return [{ url, text }, true];
         }
 
         return [{ url }, true];
