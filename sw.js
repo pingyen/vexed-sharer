@@ -32,7 +32,7 @@ chrome.action.onClicked.addListener(tab => {
 
           text = text.substring(0, text.lastIndexOf(' | '));
 
-          return [{ url, text }, true];
+          return [text.length > 20 ? { url, text } : { url }, true];
         }
 
         return [{ url }, true];
